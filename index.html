@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="cat.ico" type="image/x-icon">
+    <title>Cat</title>
+  </head>
+  <style>
+    *{
+        display: flexbox;
+        overflow-x: hidden;
+        overflow-y: hidden;   
+    }
+    #bonequinho {
+      border: 1px solid black;
+    }
+  </style>
+  <body>
+    <canvas id="bonequinho" width="1200" height="640"></canvas>
+  </body>
+  <script>
+    //imagem, XiniRecorte, YiniRecorte, LarRecorte, AltRecorte, posX, posY, LarImagem, AltImagem
+    let spriteImg = new Image();
+    spriteImg.src = "./cat.jpg";
+    let ctx = document.getElementById("bonequinho").getContext("2d");
+    ctx.canvas.width = window.innerWidth - 15
+    ctx.canvas.heigh = window.innerHeigh - 15
+    let LarImagem = 0;
+    let AltImagem = 0;
+    let colImagem;
+    let linImagem;
+    let numAnimSpriteHor = 0;
+    let numAnimSpriteVer = 0;
+    let numColSprites = 4;
+    let numLinSprites = 8;
+    let posX = 0;
+    let posY = 0;
+    let limiteX;
+    let limiteY;
+    let velocidade = 4;
+    let tecla;
+    let animaMov;
+    let cima = false;
+    let baixo = false;
+    let direita = false;
+    let esquerda = false;
+    let cleaningAnim = false;
+    let animaSprite = setInterval(animSprite, 150);
+
+    function desenho() {
+      LarImagem = spriteImg.width;
+      AltImagem = spriteImg.height + 60;
+      limiteX = LarImagem;
+      colImagem = (spriteImg.width / numColSprites) * numAnimSpriteHor;
+      linImagem = (spriteImg.height / numLinSprites) * numAnimSpriteVer;
+      ctx.drawImage(
+        spriteImg,
+        colImagem,
+        linImagem,
+        LarImagem / numColSprites,
+        AltImagem / numLinSprites,
+        posX,
+        posY,
+        LarImagem / numColSprites,
+        AltImagem / numLinSprites
+      );
+
+      if (numAnimSpriteHor > numColSprites - 1) {
+        numLinSprites;
+        numAnimSpriteHor = 0;
+      }
+    }
+
+    function move(event) {
+      tecla = event.key;
+      if (tecla == "w") {
+        cima = true;
+        cleaningAnim = false;
+      }
+      if (tecla == "s") {
+        baixo = true;
+        cleaningAnim = false;
+      }
+      if (tecla == "d") {
+        direita = true;
+        cleaningAnim = false;
+      }
+      if (tecla == "a") {
+        esquerda = true;
+        cleaningAnim = false;
+      }
+      if (tecla == " ") {
+        if (cleaningAnim) {
+          cleaningAnim = false;
+        } else {
+          cleaningAnim = true;
+        }
+      }
+    }
+
+    function dmove(event) {
+      tecla = event.key;
+
+      if (tecla == "w") {
+        cima = false;
+      }
+      if (tecla == "s") {
+        baixo = false;
+      }
+      if (tecla == "d") {
+        direita = false;
+      }
+      if (tecla == "a") {
+        esquerda = false;
+      }
+    }
+
+    function gameMove() {
+      if (cima) {
+        if (posY < -46) {
+          posY -= 0;
+          numAnimSpriteVer = 2;
+        } else {
+          posY -= velocidade;
+          numAnimSpriteVer = 2;
+        }
+      }
+      if (baixo) {
+        if (posY > (window.innerHeight - 15)-150) {
+          posY += 0;
+          numAnimSpriteVer = 0;
+        } else {
+          posY += velocidade;
+          numAnimSpriteVer = 0;
+        }
+      }
+      if (direita) {
+        if (posX >= (window.innerWidth - 15)-125) {
+          posX += 0;
+          numAnimSpriteVer = 1;
+        } else {
+          posX += velocidade;
+          numAnimSpriteVer = 1;
+        }
+      }
+      if (esquerda) {
+        if (posX <= -16) {
+          posX -= 0;
+          numAnimSpriteVer = 3;
+        } else {
+          posX -= velocidade;
+          numAnimSpriteVer = 3;
+        }
+      }
+      if (cleaningAnim) {
+        numAnimSpriteVer = 5;
+      }
+      animaMov = requestAnimationFrame(gameMove);
+      desenho();
+    }
+
+    function animSprite() {
+      if (cima || baixo || direita || esquerda || cleaningAnim) {
+        numAnimSpriteHor++;
+      } else {
+        numAnimSpriteHor += 0;
+      }
+    }
+
+    window.addEventListener("keydown", move);
+    window.addEventListener("keyup", dmove);
+    window.addEventListener("load", gameMove);
+  </script>
+</html>
