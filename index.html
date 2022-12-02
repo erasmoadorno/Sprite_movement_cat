@@ -176,6 +176,14 @@
 
     window.addEventListener("keydown", move);
     window.addEventListener("keyup", dmove);
+    window.onresize = function () {
+      ctx.canvas.width = window.innerWidth - 20
+      ctx.canvas.heigh = window.innerHeigh - 20
+      if ((posX +125) > (window.innerWidth - 20) || (posY + 100) > (window.innerHeight - 20)) {
+        posX = 0
+        posY = 0
+      }
+    }
     window.onkeypress  = function(){
       document.getElementById("audio").play()
     }
