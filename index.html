@@ -19,14 +19,17 @@
   </style>
   <body>
     <canvas id="bonequinho" width="1200" height="640"></canvas>
+    <audio src="cat_by_livingtombstone.mp3" loop autoplay></audio>
+    
   </body>
-  <script>
+  <script>  
+  
     //imagem, XiniRecorte, YiniRecorte, LarRecorte, AltRecorte, posX, posY, LarImagem, AltImagem
     let spriteImg = new Image();
     spriteImg.src = "./cat.jpg";
     let ctx = document.getElementById("bonequinho").getContext("2d");
-    ctx.canvas.width = window.innerWidth - 15
-    ctx.canvas.heigh = window.innerHeigh - 15
+    ctx.canvas.width = window.innerWidth - 20
+    ctx.canvas.heigh = window.innerHeigh - 20
     let LarImagem = 0;
     let AltImagem = 0;
     let colImagem;
@@ -168,6 +171,8 @@
         numAnimSpriteHor += 0;
       }
     }
+
+    
 
     window.addEventListener("keydown", move);
     window.addEventListener("keyup", dmove);
