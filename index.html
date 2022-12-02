@@ -9,7 +9,7 @@
   </head>
   <style>
     *{
-        display: flexbox;
+  
         overflow-x: hidden;
         overflow-y: hidden;   
     }
@@ -19,11 +19,10 @@
   </style>
   <body>
     <canvas id="bonequinho" width="1200" height="640"></canvas>
-    <audio src="cat_by_livingtombstone.mp3" loop autoplay></audio>
+    <audio src="cat_by_livingtombstone.mp3" id="audio" loop></audio>
     
   </body>
   <script>  
-  
     //imagem, XiniRecorte, YiniRecorte, LarRecorte, AltRecorte, posX, posY, LarImagem, AltImagem
     let spriteImg = new Image();
     spriteImg.src = "./cat.jpg";
@@ -97,6 +96,7 @@
       if (tecla == " ") {
         if (cleaningAnim) {
           cleaningAnim = false;
+          numAnimSpriteVer = 4
         } else {
           cleaningAnim = true;
         }
@@ -176,6 +176,9 @@
 
     window.addEventListener("keydown", move);
     window.addEventListener("keyup", dmove);
+    window.onkeypress  = function(){
+      document.getElementById("audio").play()
+    }
     window.addEventListener("load", gameMove);
   </script>
 </html>
